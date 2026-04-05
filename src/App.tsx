@@ -11,7 +11,7 @@ import Blog from './pages/Blog'
 export default function App() {
   return (
     <LanguageProvider>
-    <BrowserRouter basename={import.meta.env.BASE_URL}>
+    <BrowserRouter basename="/NexShield">
       <div className="min-h-screen flex flex-col bg-navy-900">
         <Navbar />
         <main className="flex-1">
