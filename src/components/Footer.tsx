@@ -50,14 +50,39 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Company */}
+          {/* Blog */}
           <div>
-            <h4 className="text-white text-xs font-semibold uppercase tracking-widest mb-4">Company</h4>
+            <h4 className="text-white text-xs font-semibold uppercase tracking-widest mb-4">Resources</h4>
             <ul className="space-y-2 text-sm text-slate-400">
-              {[['About', '/about'], ['Team', '/about#team'], ['Contact', '/contact']].map(([label, href]) => (
+              {[['Blog', '/blog'], ['About', '/about'], ['Team', '/about#team'], ['Contact', '/contact']].map(([label, href]) => (
                 <li key={label}><Link to={href} className="hover:text-cyan-neon transition-colors">{label}</Link></li>
               ))}
             </ul>
+          </div>
+        </div>
+
+        {/* Newsletter */}
+        <div className="mb-8 p-5 rounded-xl bg-navy-800 border border-navy-500">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <p className="text-white font-semibold text-sm">Security insights, straight to your inbox.</p>
+              <p className="text-slate-500 text-xs mt-0.5">No spam. Just research, writeups, and advisories.</p>
+            </div>
+            <form
+              name="newsletter" method="POST" data-netlify="true"
+              className="flex gap-2 w-full sm:w-auto"
+              onSubmit={e => e.preventDefault()}
+            >
+              <input type="hidden" name="form-name" value="newsletter" />
+              <input
+                type="email" name="email" required
+                placeholder="your@email.com"
+                className="flex-1 sm:w-52 bg-navy-700 border border-navy-500 rounded-lg px-3 py-2 text-white text-xs placeholder-slate-600 focus:outline-none focus:border-cyan-neon/50"
+              />
+              <button type="submit" className="btn-primary text-xs py-2 px-4 whitespace-nowrap">
+                Subscribe
+              </button>
+            </form>
           </div>
         </div>
 

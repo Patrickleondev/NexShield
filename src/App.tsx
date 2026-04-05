@@ -5,11 +5,11 @@ import Home from './pages/Home'
 import Services from './pages/Services'
 import About from './pages/About'
 import Contact from './pages/Contact'
+import Blog from './pages/Blog'
 
 export default function App() {
   return (
-    <BrowserRouter basename="/NexShield">
-      <div className="min-h-screen flex flex-col bg-navy-900">
+    <BrowserRouter basename="/">\n      <div className="min-h-screen flex flex-col bg-navy-900">
         <Navbar />
         <main className="flex-1">
           <Routes>
@@ -17,6 +17,7 @@ export default function App() {
             <Route path="/services" element={<Services />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/blog" element={<Blog />} />
           </Routes>
         </main>
         <Footer />

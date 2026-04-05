@@ -55,16 +55,20 @@ export default function About() {
             {team.map((member) => (
               <div key={member.name} className="card group flex gap-5">
                 {/* Avatar */}
-                <div className="w-14 h-14 rounded-xl bg-navy-600 border border-navy-500 flex items-center justify-center text-cyan-neon font-bold text-xl shrink-0 group-hover:border-cyan-neon/40 transition-colors">
-                  {member.name[0]}
+                <div
+                  className="w-14 h-14 rounded-xl flex items-center justify-center font-bold text-xl shrink-0 transition-all"
+                  style={{ backgroundColor: `${member.color}22`, border: `1.5px solid ${member.color}44` }}
+                >
+                  <span style={{ color: member.color }}>{member.shortName[0]}</span>
                 </div>
 
                 <div className="flex-1 min-w-0">
                   <div className="flex flex-wrap items-center gap-2 mb-0.5">
-                    <h3 className="text-white font-semibold">{member.name}</h3>
-                    <span className="text-xs text-slate-500 font-mono">@{member.handle.replace(/[^a-zA-Z0-9_]/g, '')}</span>
+                    <h3 className="text-white font-semibold">{member.shortName}</h3>
+                    <span className="text-xs text-slate-500 font-mono">@{member.handle}</span>
                   </div>
-                  <p className="text-cyan-neon/80 text-xs font-medium mb-2">{member.role}</p>
+                  <p className="text-xs font-medium mb-0.5" style={{ color: member.color }}>{member.role}</p>
+                  <p className="text-slate-500 text-xs mb-2 font-mono">{member.specialty}</p>
                   <p className="text-slate-400 text-sm leading-relaxed">{member.bio}</p>
 
                   <div className="flex flex-wrap gap-2 mt-3">
