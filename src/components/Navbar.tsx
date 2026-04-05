@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { Menu, X, Shield } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 import { useLanguage } from '../contexts/LanguageContext'
 
 export default function Navbar() {
@@ -34,11 +34,11 @@ export default function Navbar() {
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2 group">
-          <Shield className="w-6 h-6 text-cyan-neon group-hover:drop-shadow-[0_0_8px_theme(colors.cyan.neon)] transition-all" />
-          <span className="font-bold text-lg tracking-tight">
-            <span className="text-cyan-neon">NEX</span>
-            <span className="text-white">SHIELD</span>
-          </span>
+          <img
+            src={`${import.meta.env.BASE_URL}nexshield_logo2.png`}
+            alt="NexShield"
+            className="h-8 w-auto"
+          />
         </Link>
 
         {/* Desktop links */}

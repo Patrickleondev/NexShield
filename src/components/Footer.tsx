@@ -1,4 +1,4 @@
-import { Shield, Github, Linkedin, Twitter, Mail } from 'lucide-react'
+import { Github, Linkedin, Twitter, Mail } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useLanguage } from '../contexts/LanguageContext'
 
@@ -12,11 +12,11 @@ export default function Footer() {
           {/* Brand */}
           <div className="md:col-span-2">
             <div className="flex items-center gap-2 mb-3">
-              <Shield className="w-5 h-5 text-cyan-neon" />
-              <span className="font-bold text-base tracking-tight">
-                <span className="text-cyan-neon">NEX</span>
-                <span className="text-white">SHIELD</span>
-              </span>
+              <img
+                src={`${import.meta.env.BASE_URL}nexshield_logo2.png`}
+                alt="NexShield"
+                className="h-7 w-auto"
+              />
             </div>
             <p className="text-slate-400 text-sm leading-relaxed max-w-xs whitespace-pre-line">
               {f.brandDesc}
