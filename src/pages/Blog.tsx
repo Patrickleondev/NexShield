@@ -1,7 +1,11 @@
 import { useState } from 'react'
 import { ArrowRight, Rss } from 'lucide-react'
+import { useLanguage } from '../contexts/LanguageContext'
 
 export default function Blog() {
+  const { t } = useLanguage()
+  const pb = t.pages.blog
+
   const [email, setEmail] = useState('')
   const [subscribed, setSubscribed] = useState(false)
 
@@ -10,26 +14,17 @@ export default function Blog() {
     setSubscribed(true)
   }
 
-  const upcoming = [
-    { title: 'How we jailbreak LLMs in red team engagements', tag: 'AI RedTeaming', date: 'Coming soon' },
-    { title: 'The anatomy of a real phishing campaign — step by step', tag: 'Awareness', date: 'Coming soon' },
-    { title: 'DevSecOps in small teams: what to automate first', tag: 'DevSecOps', date: 'Coming soon' },
-    { title: 'CTF writeup: Breaking an API with no documentation', tag: 'Pentest', date: 'Coming soon' },
-    { title: 'GRC for non-enterprise: a practical framework', tag: 'GRC', date: 'Coming soon' },
-  ]
-
   return (
     <div className="pt-24 pb-20">
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
         {/* Header */}
         <div className="mb-16">
-          <span className="section-label">Knowledge Base</span>
+          <span className="section-label">{pb.label}</span>
           <h1 className="mt-3 text-4xl sm:text-5xl font-bold text-white leading-tight">
-            NexShield Blog
+            {pb.title}
           </h1>
           <p className="mt-4 text-slate-400 text-lg max-w-xl">
-            Research, writeups, and field notes from the team —
-            published when we have something genuinely worth saying.
+            {pb.desc}
           </p>
         </div>
 
@@ -42,15 +37,13 @@ export default function Blog() {
                 <Rss className="w-5 h-5 text-cyan-neon" />
               </div>
               <div>
-                <h2 className="text-white font-semibold text-lg">First articles in progress.</h2>
-                <p className="text-slate-400 text-sm mt-1">
-                  We're writing. Subscribe to get notified when we publish.
-                </p>
+                <h2 className="text-white font-semibold text-lg">{pb.comingTitle}</h2>
+                <p className="text-slate-400 text-sm mt-1">{pb.comingDesc}</p>
               </div>
             </div>
 
             {subscribed ? (
-              <div className="text-cyan-neon text-sm font-medium shrink-0">✓ You're on the list.</div>
+              <div className="text-cyan-neon text-sm font-medium shrink-0">{pb.subscribed}</div>
             ) : (
               <form
                 name="newsletter" method="POST" data-netlify="true"
@@ -62,11 +55,11 @@ export default function Blog() {
                   type="email" name="email" required
                   value={email}
                   onChange={e => setEmail(e.target.value)}
-                  placeholder="your@email.com"
+                  placeholder={pb.subscribePlaceholder}
                   className="flex-1 sm:w-52 bg-navy-700 border border-navy-500 rounded-lg px-3 py-2 text-white text-sm placeholder-slate-600 focus:outline-none focus:border-cyan-neon/50"
                 />
                 <button type="submit" className="btn-primary text-xs py-2 px-4 whitespace-nowrap">
-                  Notify me <ArrowRight className="w-3.5 h-3.5" />
+                  {pb.subscribeCta} <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </form>
             )}
@@ -76,10 +69,10 @@ export default function Blog() {
         {/* Upcoming articles */}
         <div>
           <h2 className="text-slate-500 text-xs font-semibold uppercase tracking-widest mb-5">
-            Upcoming Articles
+            {pb.upcomingTitle}
           </h2>
           <div className="space-y-3">
-            {upcoming.map((a, i) => (
+            {pb.articles.map((a, i) => (
               <div
                 key={i}
                 className="flex items-center gap-4 p-4 rounded-xl bg-navy-800/50 border border-navy-600 opacity-60"
@@ -91,7 +84,7 @@ export default function Blog() {
                   <p className="text-slate-300 text-sm font-medium truncate">{a.title}</p>
                 </div>
                 <span className="text-xs px-2 py-0.5 rounded bg-navy-600 text-slate-500 shrink-0">{a.tag}</span>
-                <span className="text-xs text-slate-600 shrink-0 hidden sm:block">{a.date}</span>
+                <span className="text-xs text-slate-600 shrink-0 hidden sm:block">{pb.comingSoon}</span>
               </div>
             ))}
           </div>

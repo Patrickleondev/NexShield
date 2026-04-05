@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { LanguageProvider } from './contexts/LanguageContext'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import Home from './pages/Home'
@@ -9,7 +10,9 @@ import Blog from './pages/Blog'
 
 export default function App() {
   return (
-    <BrowserRouter basename="/">\n      <div className="min-h-screen flex flex-col bg-navy-900">
+    <LanguageProvider>
+    <BrowserRouter basename="/">
+      <div className="min-h-screen flex flex-col bg-navy-900">
         <Navbar />
         <main className="flex-1">
           <Routes>
@@ -23,5 +26,6 @@ export default function App() {
         <Footer />
       </div>
     </BrowserRouter>
+    </LanguageProvider>
   )
 }

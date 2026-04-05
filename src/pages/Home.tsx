@@ -4,14 +4,18 @@ import {
   FileCode2, GraduationCap, Lock, ChevronRight,
   Zap, Eye, Target, Github
 } from 'lucide-react'
-import { services, process_steps, stats, team, values } from '../data'
+import { services, team } from '../data'
+import { useLanguage } from '../contexts/LanguageContext'
 
 const iconMap: Record<string, React.ElementType> = {
   Brain, MonitorDot, ShieldAlert, FileCode2, GraduationCap, Lock,
 }
+const realityIcons = [Zap, Eye, Target]
 
 // ── Threat scanner widget ──────────────────────────────────────────────────
 function ThreatScanner() {
+  const { t } = useLanguage()
+  const sc = t.scanner
   const entries = [
     { label: 'AI Surface',    risk: 'CRITICAL', w: 90, color: 'bg-red-500' },
     { label: 'API Endpoints', risk: 'HIGH',     w: 70, color: 'bg-orange-400' },
@@ -29,10 +33,10 @@ function ThreatScanner() {
         <span className="w-3 h-3 rounded-full bg-red-500/60" />
         <span className="w-3 h-3 rounded-full bg-yellow-500/60" />
         <span className="w-3 h-3 rounded-full bg-green-500/60" />
-        <span className="ml-2 text-slate-600">nexshield --assess</span>
+        <span className="ml-2 text-slate-600">{sc.title}</span>
       </div>
-      <div className="text-slate-500 mb-1">$ scanning target-infrastructure.io</div>
-      <div className="text-cyan-neon mb-3">  [+] 6 attack vectors identified.</div>
+      <div className="text-slate-500 mb-1">{sc.scanning}</div>
+      <div className="text-cyan-neon mb-3">{sc.found}</div>
       <div className="space-y-2.5">
         {entries.map((e) => (
           <div key={e.label}>
@@ -47,13 +51,14 @@ function ThreatScanner() {
         ))}
       </div>
       <div className="mt-4 pt-3 border-t border-navy-600 text-slate-500">
-        <span className="text-cyan-neon">→ </span>14 actionable findings. Report ready.
+        <span className="text-cyan-neon">→ </span>{sc.footer}
       </div>
     </div>
   )
 }
 
 export default function Home() {
+  const { t } = useLanguage()
   return (
     <>
       {/* ── HERO ──────────────────────────────────────────────────────── */}
@@ -67,32 +72,30 @@ export default function Home() {
             <div>
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-cyan-neon/20 bg-cyan-neon/5 text-cyan-neon text-xs font-mono mb-6">
                 <span className="w-1.5 h-1.5 rounded-full bg-cyan-neon animate-pulse" />
-                AI RedTeaming · Pentest · DevSecOps
+                {t.hero.badge}
               </div>
 
               <h1 className="text-5xl sm:text-6xl font-bold leading-tight tracking-tight">
-                <span className="text-white">Next threat.</span>
+                <span className="text-white">{t.hero.title1}</span>
                 <br />
-                <span className="text-cyan-neon glow-text">Next shield.</span>
+                <span className="text-cyan-neon glow-text">{t.hero.title2}</span>
               </h1>
 
               <p className="mt-6 text-slate-400 text-lg leading-relaxed max-w-lg">
-                We test your systems the way real adversaries do — before they get the chance.
-                AI RedTeaming, Penetration Testing, and Security Engineering
-                for the threats that matter <em className="text-slate-300 not-italic">today</em>.
+                {t.hero.desc}<em className="text-slate-300 not-italic">{t.hero.descEm}</em>.
               </p>
 
               <div className="mt-8 flex flex-wrap gap-4">
                 <Link to="/contact" className="btn-primary">
-                  Get Free Assessment <ArrowRight className="w-4 h-4" />
+                  {t.hero.cta1} <ArrowRight className="w-4 h-4" />
                 </Link>
                 <Link to="/services" className="btn-outline">
-                  Our Services
+                  {t.hero.cta2}
                 </Link>
               </div>
 
               <div className="mt-10 flex items-center gap-6 flex-wrap">
-                {stats.map((s) => (
+                {t.stats.map((s) => (
                   <div key={s.label}>
                     <div className="text-2xl font-bold text-white">
                       {s.value}<span className="text-cyan-neon">{s.suffix}</span>
@@ -115,42 +118,28 @@ export default function Home() {
       <section className="py-20 border-t border-navy-600">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-14">
-            <span className="section-label">The Reality</span>
+            <span className="section-label">{t.reality.label}</span>
             <h2 className="mt-3 text-3xl sm:text-4xl font-bold text-white">
-              The threat landscape evolved.<br className="hidden sm:block" /> Most defenses didn't.
+              {t.reality.titleLine1}<br className="hidden sm:block" /> {t.reality.titleLine2}
             </h2>
             <p className="mt-4 text-slate-400 max-w-xl mx-auto">
-              Organizations are breached not because attackers are invincible —
-              but because defenders are reactive.
+              {t.reality.subtitle}
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[
-              {
-                icon: Zap,
-                title: 'AI Changes the Game',
-                desc: 'Attackers use AI to automate reconnaissance, generate convincing phishing, and bypass traditional defenses at scale. Your AI systems are also new attack vectors — untested and exposed.',
-              },
-              {
-                icon: Eye,
-                title: "You Can't Defend the Unknown",
-                desc: 'Shadow APIs, forgotten assets, misconfigured cloud services, exposed internal tools — your real attack surface is always larger than your team knows. We find it all.',
-              },
-              {
-                icon: Target,
-                title: 'Reactive Is Too Late',
-                desc: "The average dwell time before a breach is detected is still measured in months. Proactive testing and red teaming are no longer optional — they're survival.",
-              },
-            ].map((c) => (
-              <div key={c.title} className="card group">
-                <div className="w-10 h-10 rounded-xl bg-cyan-neon/10 flex items-center justify-center mb-4 group-hover:bg-cyan-neon/20 transition-colors">
-                  <c.icon className="w-5 h-5 text-cyan-neon" />
+            {t.reality.cards.map((c, i) => {
+              const Icon = realityIcons[i]
+              return (
+                <div key={c.title} className="card group">
+                  <div className="w-10 h-10 rounded-xl bg-cyan-neon/10 flex items-center justify-center mb-4 group-hover:bg-cyan-neon/20 transition-colors">
+                    <Icon className="w-5 h-5 text-cyan-neon" />
+                  </div>
+                  <h3 className="text-white font-semibold text-lg mb-2">{c.title}</h3>
+                  <p className="text-slate-400 text-sm leading-relaxed">{c.desc}</p>
                 </div>
-                <h3 className="text-white font-semibold text-lg mb-2">{c.title}</h3>
-                <p className="text-slate-400 text-sm leading-relaxed">{c.desc}</p>
-              </div>
-            ))}
+              )
+            })}
           </div>
         </div>
       </section>
@@ -160,17 +149,18 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-14 gap-4">
             <div>
-              <span className="section-label">What We Do</span>
-              <h2 className="mt-3 text-3xl sm:text-4xl font-bold text-white">Services</h2>
+              <span className="section-label">{t.servicesSection.label}</span>
+              <h2 className="mt-3 text-3xl sm:text-4xl font-bold text-white">{t.servicesSection.title}</h2>
             </div>
             <Link to="/services" className="text-cyan-neon text-sm flex items-center gap-1 hover:gap-2 transition-all">
-              View all <ChevronRight className="w-4 h-4" />
+              {t.servicesSection.viewAll} <ChevronRight className="w-4 h-4" />
             </Link>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {services.map((s) => {
+            {services.map((s, i) => {
               const Icon = iconMap[s.icon]
+              const st = t.services[i]
               return (
                 <Link
                   key={s.id}
@@ -181,16 +171,16 @@ export default function Home() {
                     <div className="p-2 rounded-lg bg-navy-600 group-hover:bg-cyan-neon/10 transition-colors shrink-0">
                       <Icon className="w-5 h-5 text-cyan-neon" />
                     </div>
-                    <h3 className="text-white font-semibold leading-snug pt-1">{s.title}</h3>
+                    <h3 className="text-white font-semibold leading-snug pt-1">{st.title}</h3>
                   </div>
-                  <p className="text-slate-400 text-sm leading-relaxed">{s.short}</p>
+                  <p className="text-slate-400 text-sm leading-relaxed">{st.short}</p>
                   <div className="flex flex-wrap gap-2 mt-4">
-                    {s.tags.slice(0, 2).map(t => (
-                      <span key={t} className="text-xs px-2 py-0.5 rounded bg-navy-600 text-slate-500">{t}</span>
+                    {s.tags.slice(0, 2).map(tag => (
+                      <span key={tag} className="text-xs px-2 py-0.5 rounded bg-navy-600 text-slate-500">{tag}</span>
                     ))}
                   </div>
                   <div className="flex items-center gap-1 text-cyan-neon text-xs mt-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                    Learn more <ChevronRight className="w-3 h-3" />
+                    {t.servicesSection.learnMore} <ChevronRight className="w-3 h-3" />
                   </div>
                 </Link>
               )
@@ -203,17 +193,17 @@ export default function Home() {
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-14">
-            <span className="section-label">Our Process</span>
-            <h2 className="mt-3 text-3xl sm:text-4xl font-bold text-white">How We Work</h2>
+            <span className="section-label">{t.processSection.label}</span>
+            <h2 className="mt-3 text-3xl sm:text-4xl font-bold text-white">{t.processSection.title}</h2>
           </div>
 
           <p className="text-center text-slate-400 max-w-md mx-auto mb-14">
-            Three phases. No shortcuts. Repeat until you're actually secure.
+            {t.processSection.subtitle}
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-navy-600 rounded-2xl overflow-hidden">
-            {process_steps.map((step, i) => (
-              <div key={step.step} className="bg-navy-800 p-8 relative">
-                <div className="text-6xl font-bold text-cyan-neon/10 font-mono absolute top-4 right-6 select-none">{step.step}</div>
+            {t.process_steps.map((step, i) => (
+              <div key={step.title} className="bg-navy-800 p-8 relative">
+                <div className="text-6xl font-bold text-cyan-neon/10 font-mono absolute top-4 right-6 select-none">0{i+1}</div>
                 <div className="w-8 h-8 rounded-lg bg-cyan-neon/10 flex items-center justify-center mb-4">
                   <span className="text-cyan-neon font-bold text-sm font-mono">{i + 1}</span>
                 </div>
@@ -230,36 +220,39 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-14 gap-4">
             <div>
-              <span className="section-label">The People</span>
-              <h2 className="mt-3 text-3xl sm:text-4xl font-bold text-white">Our Team</h2>
+              <span className="section-label">{t.teamSection.label}</span>
+              <h2 className="mt-3 text-3xl sm:text-4xl font-bold text-white">{t.teamSection.title}</h2>
             </div>
             <Link to="/about#team" className="text-cyan-neon text-sm flex items-center gap-1 hover:gap-2 transition-all">
-              Meet everyone <ChevronRight className="w-4 h-4" />
+              {t.teamSection.meetEveryone} <ChevronRight className="w-4 h-4" />
             </Link>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-            {team.map((member) => (
-              <div key={member.name} className="card group flex flex-col gap-3 hover:border-cyan-neon/30 transition-all">
-                <div
-                  className="w-11 h-11 rounded-xl flex items-center justify-center font-bold text-lg"
-                  style={{ backgroundColor: `${member.color}22`, border: `1px solid ${member.color}44` }}
-                >
-                  <span style={{ color: member.color }}>{member.shortName[0]}</span>
+            {team.map((member, i) => {
+              const tt = t.team[i]
+              return (
+                <div key={member.name} className="card group flex flex-col gap-3 hover:border-cyan-neon/30 transition-all">
+                  <div
+                    className="w-11 h-11 rounded-xl flex items-center justify-center font-bold text-lg"
+                    style={{ backgroundColor: `${member.color}22`, border: `1px solid ${member.color}44` }}
+                  >
+                    <span style={{ color: member.color }}>{member.shortName[0]}</span>
+                  </div>
+                  <div>
+                    <div className="text-white font-semibold text-sm">{member.shortName}</div>
+                    <div className="text-slate-500 text-xs mt-0.5">{tt.role}</div>
+                  </div>
+                  {member.github && (
+                    <a href={member.github} target="_blank" rel="noreferrer"
+                      className="text-slate-600 hover:text-cyan-neon transition-colors mt-auto"
+                      onClick={e => e.stopPropagation()}>
+                      <Github className="w-3.5 h-3.5" />
+                    </a>
+                  )}
                 </div>
-                <div>
-                  <div className="text-white font-semibold text-sm">{member.shortName}</div>
-                  <div className="text-slate-500 text-xs mt-0.5">{member.role}</div>
-                </div>
-                {member.github && (
-                  <a href={member.github} target="_blank" rel="noreferrer"
-                    className="text-slate-600 hover:text-cyan-neon transition-colors mt-auto"
-                    onClick={e => e.stopPropagation()}>
-                    <Github className="w-3.5 h-3.5" />
-                  </a>
-                )}
-              </div>
-            ))}
+              )
+            })}
           </div>
         </div>
       </section>
@@ -269,21 +262,19 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
             <div>
-              <span className="section-label">What We Stand For</span>
+              <span className="section-label">{t.valuesSection.label}</span>
               <h2 className="mt-3 text-3xl sm:text-4xl font-bold text-white">
-                Security done right has no shortcuts.
+                {t.valuesSection.title}
               </h2>
               <p className="mt-4 text-slate-400 leading-relaxed">
-                We started NexShield because we saw too many organizations treated as
-                product targets rather than security partners. Our approach is different:
-                honest, offensive-first, and built around real-world threats — not compliance checklists.
+                {t.valuesSection.desc}
               </p>
               <Link to="/about" className="inline-flex items-center gap-2 text-cyan-neon text-sm mt-6 hover:gap-3 transition-all">
-                Our story <ArrowRight className="w-4 h-4" />
+                {t.valuesSection.link} <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {values.map((v) => (
+              {t.values.map((v) => (
                 <div key={v.title} className="card">
                   <h3 className="text-white font-semibold mb-2 flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-cyan-neon shrink-0" />
@@ -305,21 +296,20 @@ export default function Home() {
             <div className="absolute -top-20 -right-20 w-80 h-80 rounded-full bg-cyan-neon/5 blur-3xl" />
             <div className="relative p-10 sm:p-16 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-8">
               <div>
-                <span className="section-label">Ready to stress-test your security?</span>
+                <span className="section-label">{t.ctaBanner.label}</span>
                 <h2 className="mt-3 text-3xl sm:text-4xl font-bold text-white">
-                  Know your weaknesses<br />before attackers do.
+                  {t.ctaBanner.titleLine1}<br />{t.ctaBanner.titleLine2}
                 </h2>
                 <p className="mt-4 text-slate-400 max-w-md">
-                  First assessment is free. We'll give you an honest picture
-                  of where you stand — no sales pitch.
+                  {t.ctaBanner.desc}
                 </p>
               </div>
               <div className="flex flex-col gap-3 shrink-0">
                 <Link to="/contact" className="btn-primary whitespace-nowrap">
-                  Request Assessment <ArrowRight className="w-4 h-4" />
+                  {t.ctaBanner.cta1} <ArrowRight className="w-4 h-4" />
                 </Link>
                 <Link to="/services" className="btn-outline whitespace-nowrap justify-center">
-                  Explore Services
+                  {t.ctaBanner.cta2}
                 </Link>
               </div>
             </div>

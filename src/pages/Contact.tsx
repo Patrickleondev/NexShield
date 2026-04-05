@@ -1,8 +1,12 @@
 import { useState } from 'react'
 import { Mail, Github, Linkedin, Twitter, Send, CheckCircle } from 'lucide-react'
-import { services } from '../data'
+import { useLanguage } from '../contexts/LanguageContext'
 
 export default function Contact() {
+  const { t } = useLanguage()
+  const pc = t.pages.contact
+  const f = pc.form
+
   const [sent, setSent] = useState(false)
   const [form, setForm] = useState({ name: '', email: '', company: '', service: '', message: '' })
 
@@ -32,13 +36,12 @@ export default function Contact() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         {/* Header */}
         <div className="max-w-2xl mb-16">
-          <span className="section-label">Get In Touch</span>
+          <span className="section-label">{pc.label}</span>
           <h1 className="mt-3 text-4xl sm:text-5xl font-bold text-white leading-tight">
-            Request an Assessment
+            {pc.title}
           </h1>
           <p className="mt-4 text-slate-400 text-lg">
-            Tell us about your infrastructure. We'll identify your exposure and give you
-            an honest report — no fluff, no upsell.
+            {pc.desc}
           </p>
         </div>
 
@@ -48,73 +51,73 @@ export default function Contact() {
             {sent ? (
               <div className="card flex flex-col items-center justify-center text-center py-16 gap-4">
                 <CheckCircle className="w-12 h-12 text-cyan-neon" />
-                <h2 className="text-white text-xl font-semibold">Message sent!</h2>
-                <p className="text-slate-400">Your email client should have opened. We'll get back to you shortly.</p>
+                <h2 className="text-white text-xl font-semibold">{pc.sent.title}</h2>
+                <p className="text-slate-400">{pc.sent.desc}</p>
                 <button onClick={() => setSent(false)} className="btn-outline mt-2">
-                  Send another
+                  {pc.sent.again}
                 </button>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="card space-y-5">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
-                    <label className="block text-sm text-slate-400 mb-1.5" htmlFor="name">Full Name *</label>
+                    <label className="block text-sm text-slate-400 mb-1.5" htmlFor="name">{f.name} *</label>
                     <input
                       id="name" name="name" type="text" required
                       value={form.name} onChange={handleChange}
-                      placeholder="Jane Doe"
+                      placeholder={f.namePlaceholder}
                       className="w-full bg-navy-700 border border-navy-500 rounded-lg px-4 py-2.5 text-white text-sm placeholder-slate-600 focus:outline-none focus:border-cyan-neon/50 transition-colors"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm text-slate-400 mb-1.5" htmlFor="email">Email *</label>
+                    <label className="block text-sm text-slate-400 mb-1.5" htmlFor="email">{f.email} *</label>
                     <input
                       id="email" name="email" type="email" required
                       value={form.email} onChange={handleChange}
-                      placeholder="jane@company.com"
+                      placeholder={f.emailPlaceholder}
                       className="w-full bg-navy-700 border border-navy-500 rounded-lg px-4 py-2.5 text-white text-sm placeholder-slate-600 focus:outline-none focus:border-cyan-neon/50 transition-colors"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm text-slate-400 mb-1.5" htmlFor="company">Company / Organization</label>
+                  <label className="block text-sm text-slate-400 mb-1.5" htmlFor="company">{f.company}</label>
                   <input
                     id="company" name="company" type="text"
                     value={form.company} onChange={handleChange}
-                    placeholder="Acme Corp"
+                    placeholder={f.companyPlaceholder}
                     className="w-full bg-navy-700 border border-navy-500 rounded-lg px-4 py-2.5 text-white text-sm placeholder-slate-600 focus:outline-none focus:border-cyan-neon/50 transition-colors"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm text-slate-400 mb-1.5" htmlFor="service">Service of Interest</label>
+                  <label className="block text-sm text-slate-400 mb-1.5" htmlFor="service">{f.service}</label>
                   <select
                     id="service" name="service"
                     value={form.service} onChange={handleChange}
                     className="w-full bg-navy-700 border border-navy-500 rounded-lg px-4 py-2.5 text-white text-sm focus:outline-none focus:border-cyan-neon/50 transition-colors"
                   >
-                    <option value="">Select a service…</option>
-                    {services.map((s) => (
+                    <option value="">{f.servicePlaceholder}</option>
+                    {t.services.map((s) => (
                       <option key={s.id} value={s.title}>{s.title}</option>
                     ))}
-                    <option value="General Inquiry">General Inquiry</option>
+                    <option value={f.generalInquiry}>{f.generalInquiry}</option>
                   </select>
                 </div>
 
                 <div>
-                  <label className="block text-sm text-slate-400 mb-1.5" htmlFor="message">Message *</label>
+                  <label className="block text-sm text-slate-400 mb-1.5" htmlFor="message">{f.message} *</label>
                   <textarea
                     id="message" name="message" required rows={5}
                     value={form.message} onChange={handleChange}
-                    placeholder="Describe your infrastructure, current security situation, or any specific concerns…"
+                    placeholder={f.messagePlaceholder}
                     className="w-full bg-navy-700 border border-navy-500 rounded-lg px-4 py-2.5 text-white text-sm placeholder-slate-600 focus:outline-none focus:border-cyan-neon/50 transition-colors resize-none"
                   />
                 </div>
 
                 <button type="submit" className="btn-primary flex items-center gap-2 w-full sm:w-auto justify-center">
                   <Send className="w-4 h-4" />
-                  Send Message
+                  {f.submit}
                 </button>
               </form>
             )}
@@ -123,7 +126,7 @@ export default function Contact() {
           {/* Info panel */}
           <div className="space-y-6">
             <div className="card">
-              <h3 className="text-white font-semibold mb-4">Contact Info</h3>
+              <h3 className="text-white font-semibold mb-4">{pc.contactInfo}</h3>
               <div className="space-y-4">
                 {contacts.map((c) => (
                   <a key={c.label} href={c.href} target={c.href.startsWith('mailto') ? undefined : '_blank'}
@@ -142,15 +145,20 @@ export default function Contact() {
             </div>
 
             <div className="card">
-              <h3 className="text-white font-semibold mb-2">Response Time</h3>
+              <h3 className="text-white font-semibold mb-2">{pc.responseTime.title}</h3>
               <p className="text-slate-400 text-sm leading-relaxed">
-                We typically respond within <span className="text-cyan-neon">24–48 hours</span>.
-                For urgent incidents, mention it in your message — we'll prioritize.
+                {pc.responseTime.desc}<span className="text-cyan-neon">{pc.responseTime.highlight}</span>{pc.responseTime.desc2}
               </p>
             </div>
-          </div>
+            <div className="card">
+              <h3 className="text-white font-semibold mb-2">{pc.responseTime.title}</h3>
+              <p className="text-slate-400 text-sm leading-relaxed">
+                {pc.responseTime.desc}<span className="text-cyan-neon">{pc.responseTime.highlight}</span>{pc.responseTime.desc2}
+              </p>
+            </div>          </div>
         </div>
       </div>
     </div>
   )
 }
+

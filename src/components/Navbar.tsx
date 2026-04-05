@@ -1,19 +1,21 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Menu, X, Shield } from 'lucide-react'
-
-const links = [
-  { to: '/', label: 'Home' },
-  { to: '/services', label: 'Services' },
-  { to: '/about', label: 'About' },
-  { to: '/blog', label: 'Blog' },
-  { to: '/contact', label: 'Contact' },
-]
+import { useLanguage } from '../contexts/LanguageContext'
 
 export default function Navbar() {
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const location = useLocation()
+  const { lang, setLang, t } = useLanguage()
+
+  const links = [
+    { to: '/', label: t.nav.home },
+    { to: '/services', label: t.nav.services },
+    { to: '/about', label: t.nav.about },
+    { to: '/blog', label: t.nav.blog },
+    { to: '/contact', label: t.nav.contact },
+  ]
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20)
@@ -56,10 +58,22 @@ export default function Navbar() {
           ))}
         </div>
 
-        {/* CTA */}
-        <div className="hidden md:block">
+        {/* CTA + Lang toggle */}
+        <div className="hidden md:flex items-center gap-3">
+          {/* Language toggle */}
+          <div className="flex items-center border border-navy-500 rounded-lg overflow-hidden text-xs font-mono">
+            <button
+              onClick={() => setLang('en')}
+              className={`px-2.5 py-1 transition-colors ${lang === 'en' ? 'bg-cyan-neon/20 text-cyan-neon' : 'text-slate-500 hover:text-white'}`}
+            >EN</button>
+            <span className="text-navy-400">|</span>
+            <button
+              onClick={() => setLang('fr')}
+              className={`px-2.5 py-1 transition-colors ${lang === 'fr' ? 'bg-cyan-neon/20 text-cyan-neon' : 'text-slate-500 hover:text-white'}`}
+            >FR</button>
+          </div>
           <Link to="/contact" className="btn-primary text-xs py-2 px-4">
-            Get Assessment
+            {t.nav.cta}
           </Link>
         </div>
 
@@ -88,8 +102,23 @@ export default function Navbar() {
             </Link>
           ))}
           <Link to="/contact" className="btn-primary mt-4 w-full justify-center text-xs py-2">
-            Get Assessment
+            {t.nav.cta}
           </Link>
+          {/* Mobile language toggle */}
+          <div className="flex items-center gap-2 mt-3">
+            <span className="text-slate-600 text-xs font-mono">Lang:</span>
+            <div className="flex items-center border border-navy-500 rounded-lg overflow-hidden text-xs font-mono">
+              <button
+                onClick={() => setLang('en')}
+                className={`px-2.5 py-1 transition-colors ${lang === 'en' ? 'bg-cyan-neon/20 text-cyan-neon' : 'text-slate-500'}`}
+              >EN</button>
+              <span className="text-navy-400">|</span>
+              <button
+                onClick={() => setLang('fr')}
+                className={`px-2.5 py-1 transition-colors ${lang === 'fr' ? 'bg-cyan-neon/20 text-cyan-neon' : 'text-slate-500'}`}
+              >FR</button>
+            </div>
+          </div>
         </div>
       )}
     </header>
