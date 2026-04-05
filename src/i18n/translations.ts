@@ -295,8 +295,8 @@ export const translations = {
     },
     hero: {
       badge: 'RedTeaming IA · Pentest · DevSecOps',
-      title1: 'Prochaine menace.',
-      title2: 'Prochain bouclier.',
+      title1: 'Next threat.',
+      title2: 'Next shield.',
       desc: "Nous testons vos systèmes comme de vrais adversaires — avant qu'ils n'aient la chance. RedTeaming IA, Tests d'Intrusion et Ingénierie de Sécurité pour les menaces qui comptent ",
       descEm: "aujourd'hui",
       cta1: 'Évaluation Gratuite',

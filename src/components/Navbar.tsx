@@ -35,7 +35,7 @@ export default function Navbar() {
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2 group">
           <img
-            src={`${import.meta.env.BASE_URL}nexshield_logo2.png`}
+            src={`${import.meta.env.BASE_URL}logo1.png`}
             alt="NexShield"
             className="h-8 w-auto"
           />
