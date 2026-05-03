@@ -5,5 +5,7 @@ dist-ssr/
 .env
 .env.*
 !.env.example
+LOCAL_CONTENT_GUIDE.md
+LOCAL_*.md
 .DS_Store
 Thumbs.db

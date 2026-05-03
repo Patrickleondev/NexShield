@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react'
+﻿import { createContext, useContext, useState } from 'react'
 import type { ReactNode } from 'react'
 import { translations, type Lang } from '../i18n/translations'
 
@@ -35,3 +35,4 @@ export function useLanguage() {
   if (!ctx) throw new Error('useLanguage must be used inside LanguageProvider')
   return ctx
 }
+

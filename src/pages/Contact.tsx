@@ -1,4 +1,4 @@
-import { useState } from 'react'
+﻿import { useState } from 'react'
 import { Mail, Github, Linkedin, Twitter, Send, CheckCircle } from 'lucide-react'
 import { useLanguage } from '../contexts/LanguageContext'
 
@@ -37,10 +37,10 @@ export default function Contact() {
         {/* Header */}
         <div className="max-w-2xl mb-16">
           <span className="section-label">{pc.label}</span>
-          <h1 className="mt-3 text-4xl sm:text-5xl font-bold text-white leading-tight">
+          <h1 className="mt-3 text-4xl sm:text-5xl font-bold text-slate-950 leading-tight">
             {pc.title}
           </h1>
-          <p className="mt-4 text-slate-400 text-lg">
+          <p className="mt-4 text-slate-600 text-lg">
             {pc.desc}
           </p>
         </div>
@@ -50,9 +50,9 @@ export default function Contact() {
           <div className="lg:col-span-2">
             {sent ? (
               <div className="card flex flex-col items-center justify-center text-center py-16 gap-4">
-                <CheckCircle className="w-12 h-12 text-cyan-neon" />
-                <h2 className="text-white text-xl font-semibold">{pc.sent.title}</h2>
-                <p className="text-slate-400">{pc.sent.desc}</p>
+                <CheckCircle className="w-12 h-12 text-brand-900" />
+                <h2 className="text-slate-950 text-xl font-semibold">{pc.sent.title}</h2>
+                <p className="text-slate-600">{pc.sent.desc}</p>
                 <button onClick={() => setSent(false)} className="btn-outline mt-2">
                   {pc.sent.again}
                 </button>
@@ -61,41 +61,41 @@ export default function Contact() {
               <form onSubmit={handleSubmit} className="card space-y-5">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
-                    <label className="block text-sm text-slate-400 mb-1.5" htmlFor="name">{f.name} *</label>
+                    <label className="block text-sm text-slate-600 mb-1.5" htmlFor="name">{f.name} *</label>
                     <input
                       id="name" name="name" type="text" required
                       value={form.name} onChange={handleChange}
                       placeholder={f.namePlaceholder}
-                      className="w-full bg-navy-700 border border-navy-500 rounded-lg px-4 py-2.5 text-white text-sm placeholder-slate-600 focus:outline-none focus:border-cyan-neon/50 transition-colors"
+                      className="w-full bg-white shadow-sm border border-slate-200 rounded-lg px-4 py-2.5 text-slate-950 text-sm placeholder-slate-500 focus:outline-none focus:border-brand-900/50 transition-colors"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm text-slate-400 mb-1.5" htmlFor="email">{f.email} *</label>
+                    <label className="block text-sm text-slate-600 mb-1.5" htmlFor="email">{f.email} *</label>
                     <input
                       id="email" name="email" type="email" required
                       value={form.email} onChange={handleChange}
                       placeholder={f.emailPlaceholder}
-                      className="w-full bg-navy-700 border border-navy-500 rounded-lg px-4 py-2.5 text-white text-sm placeholder-slate-600 focus:outline-none focus:border-cyan-neon/50 transition-colors"
+                      className="w-full bg-white shadow-sm border border-slate-200 rounded-lg px-4 py-2.5 text-slate-950 text-sm placeholder-slate-500 focus:outline-none focus:border-brand-900/50 transition-colors"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm text-slate-400 mb-1.5" htmlFor="company">{f.company}</label>
+                  <label className="block text-sm text-slate-600 mb-1.5" htmlFor="company">{f.company}</label>
                   <input
                     id="company" name="company" type="text"
                     value={form.company} onChange={handleChange}
                     placeholder={f.companyPlaceholder}
-                    className="w-full bg-navy-700 border border-navy-500 rounded-lg px-4 py-2.5 text-white text-sm placeholder-slate-600 focus:outline-none focus:border-cyan-neon/50 transition-colors"
+                    className="w-full bg-white shadow-sm border border-slate-200 rounded-lg px-4 py-2.5 text-slate-950 text-sm placeholder-slate-500 focus:outline-none focus:border-brand-900/50 transition-colors"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm text-slate-400 mb-1.5" htmlFor="service">{f.service}</label>
+                  <label className="block text-sm text-slate-600 mb-1.5" htmlFor="service">{f.service}</label>
                   <select
                     id="service" name="service"
                     value={form.service} onChange={handleChange}
-                    className="w-full bg-navy-700 border border-navy-500 rounded-lg px-4 py-2.5 text-white text-sm focus:outline-none focus:border-cyan-neon/50 transition-colors"
+                    className="w-full bg-white shadow-sm border border-slate-200 rounded-lg px-4 py-2.5 text-slate-950 text-sm focus:outline-none focus:border-brand-900/50 transition-colors"
                   >
                     <option value="">{f.servicePlaceholder}</option>
                     {t.services.map((s) => (
@@ -106,12 +106,12 @@ export default function Contact() {
                 </div>
 
                 <div>
-                  <label className="block text-sm text-slate-400 mb-1.5" htmlFor="message">{f.message} *</label>
+                  <label className="block text-sm text-slate-600 mb-1.5" htmlFor="message">{f.message} *</label>
                   <textarea
                     id="message" name="message" required rows={5}
                     value={form.message} onChange={handleChange}
                     placeholder={f.messagePlaceholder}
-                    className="w-full bg-navy-700 border border-navy-500 rounded-lg px-4 py-2.5 text-white text-sm placeholder-slate-600 focus:outline-none focus:border-cyan-neon/50 transition-colors resize-none"
+                    className="w-full bg-white shadow-sm border border-slate-200 rounded-lg px-4 py-2.5 text-slate-950 text-sm placeholder-slate-500 focus:outline-none focus:border-brand-900/50 transition-colors resize-none"
                   />
                 </div>
 
@@ -126,13 +126,13 @@ export default function Contact() {
           {/* Info panel */}
           <div className="space-y-6">
             <div className="card">
-              <h3 className="text-white font-semibold mb-4">{pc.contactInfo}</h3>
+              <h3 className="text-slate-950 font-semibold mb-4">{pc.contactInfo}</h3>
               <div className="space-y-4">
                 {contacts.map((c) => (
                   <a key={c.label} href={c.href} target={c.href.startsWith('mailto') ? undefined : '_blank'}
                     rel="noreferrer"
-                    className="flex items-center gap-3 text-slate-400 hover:text-cyan-neon transition-colors group">
-                    <span className="w-8 h-8 rounded-lg bg-navy-600 border border-navy-500 flex items-center justify-center group-hover:border-cyan-neon/40 transition-colors">
+                    className="flex items-center gap-3 text-slate-600 hover:text-brand-900 transition-colors group">
+                    <span className="w-8 h-8 rounded-lg bg-accent-50 shadow-sm border border-slate-200 flex items-center justify-center group-hover:border-brand-900/40 transition-colors">
                       <c.icon className="w-4 h-4" />
                     </span>
                     <div>
@@ -145,20 +145,16 @@ export default function Contact() {
             </div>
 
             <div className="card">
-              <h3 className="text-white font-semibold mb-2">{pc.responseTime.title}</h3>
-              <p className="text-slate-400 text-sm leading-relaxed">
-                {pc.responseTime.desc}<span className="text-cyan-neon">{pc.responseTime.highlight}</span>{pc.responseTime.desc2}
+              <h3 className="text-slate-950 font-semibold mb-2">{pc.responseTime.title}</h3>
+              <p className="text-slate-600 text-sm leading-relaxed">
+                {pc.responseTime.desc}<span className="text-brand-900">{pc.responseTime.highlight}</span>{pc.responseTime.desc2}
               </p>
             </div>
-            <div className="card">
-              <h3 className="text-white font-semibold mb-2">{pc.responseTime.title}</h3>
-              <p className="text-slate-400 text-sm leading-relaxed">
-                {pc.responseTime.desc}<span className="text-cyan-neon">{pc.responseTime.highlight}</span>{pc.responseTime.desc2}
-              </p>
-            </div>          </div>
+          </div>
         </div>
       </div>
     </div>
   )
 }
+
 

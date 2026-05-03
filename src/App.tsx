@@ -1,31 +1,32 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+﻿import { BrowserRouter } from 'react-router-dom'
 import { LanguageProvider } from './contexts/LanguageContext'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
-import Home from './pages/Home'
-import Services from './pages/Services'
-import About from './pages/About'
-import Contact from './pages/Contact'
-import Blog from './pages/Blog'
+import { ChatWidget } from './components/chat/ChatWidget'
+import DynamicBackground from './components/DynamicBackground'
+import ScrollToTop from './components/ScrollToTop'
+import ScrollProgress from './components/ScrollProgress'
+import AppRoutes from './components/AppRoutes'
 
 export default function App() {
   return (
     <LanguageProvider>
     <BrowserRouter basename="/NexShield">
-      <div className="min-h-screen flex flex-col bg-navy-900">
+      <div className="relative isolate min-h-screen flex flex-col overflow-x-hidden bg-slate-50 text-slate-800">
+        <ScrollToTop />
+        <DynamicBackground />
+        <ScrollProgress />
         <Navbar />
-        <main className="flex-1">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/services" element={<Services />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/blog" element={<Blog />} />
-          </Routes>
+        <main className="relative z-10 flex-1">
+          <AppRoutes />
         </main>
-        <Footer />
+        <div className="relative z-10">
+          <Footer />
+        </div>
+        <ChatWidget />
       </div>
     </BrowserRouter>
     </LanguageProvider>
   )
 }
+

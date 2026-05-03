@@ -4,17 +4,18 @@ export default {
   theme: {
     extend: {
       colors: {
-        navy: {
-          900: '#060b14',
-          800: '#0a1020',
-          700: '#0e1628',
-          600: '#121d35',
-          500: '#1a2744',
+        brand: {
+          50: '#f8fafc',
+          900: '#1e293b', // slate-800
+          800: '#334155', // slate-700
+          700: '#475569', // slate-600
+          600: '#64748b', // slate-500
+          500: '#94a3b8', // slate-400
         },
-        cyan: {
-          400: '#22d3ee',
-          500: '#06b6d4',
-          neon: '#00e5ff',
+        accent: {
+          50: '#f0f9ff',
+          500: '#0ea5e9', // cyan-500
+          600: '#0284c7', // sky-600
         },
       },
       fontFamily: {
@@ -23,7 +24,6 @@ export default {
       },
       animation: {
         'fade-up': 'fadeUp 0.6s ease forwards',
-        'pulse-slow': 'pulse 3s ease-in-out infinite',
       },
       keyframes: {
         fadeUp: {
