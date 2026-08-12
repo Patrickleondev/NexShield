@@ -12,23 +12,6 @@
   </head>
   <body>
     <div id="root"></div>
-    <script>
-      // Handle GitHub Pages SPA redirect from 404.html
-      (function() {
-        var l = window.location;
-        if (l.search[1] === 'p') {
-          var decoded = l.search.slice(1).split('&').map(function(s) {
-            return s.replace(/~and~/g, '&');
-          });
-          var path = decoded[0].slice(3);
-          var query = decoded[1] ? ('?' + decoded[1].slice(2)) : '';
-          var hash = l.hash;
-          window.history.replaceState(null, null,
-            l.pathname.slice(0, -1) + '/' + path + query + hash
-          );
-        }
-      })();
-    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

@@ -11,7 +11,7 @@ import AppRoutes from './components/AppRoutes'
 export default function App() {
   return (
     <LanguageProvider>
-    <BrowserRouter basename="/NexShield">
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <div className="relative isolate min-h-screen flex flex-col overflow-x-hidden bg-slate-50 text-slate-800">
         <ScrollToTop />
         <DynamicBackground />
