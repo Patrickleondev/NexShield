@@ -29,3 +29,24 @@
   for = "/assets/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
+
+# L'interface d'administration charge Decap CMS et Netlify Identity depuis un
+# CDN : la politique stricte du site la bloquerait. On desserre uniquement sur
+# /admin/*, jamais sur les pages publiques.
+#
+# Compromis assume : dependance a unpkg pour l'admin. Pour supprimer ce risque
+# de chaine d'approvisionnement, installer decap-cms en dependance npm et
+# servir le bundle depuis /admin/ — voir DEPLOIEMENT.md.
+[[headers]]
+  for = "/admin/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com https://identity.netlify.com; style-src 'self' 'unsafe-inline' https://unpkg.com; font-src 'self' data: https://unpkg.com; img-src 'self' data: blob: https://*.githubusercontent.com https://avatars.githubusercontent.com; connect-src 'self' https://api.github.com https://unpkg.com https://identity.netlify.com; frame-ancestors 'none'"
+
+# Les fonctions repondent en /api/* (declare dans chaque fonction via `config.path`).
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"

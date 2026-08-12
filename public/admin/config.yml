@@ -1,0 +1,168 @@
+# Decap CMS — publication des articles.
+#
+# Les articles sont des fichiers Markdown commités dans le depot : versionnes,
+# relisibles en PR, sans base de donnees. Le mode editorial_workflow cree une
+# branche et une pull request par article : rien ne part en ligne sans relecture,
+# ce qui est coherent avec CONTRIBUTING.md.
+
+backend:
+  name: git-gateway
+  branch: main
+
+# Chaque publication passe par brouillon -> en relecture -> pret. Une PR est
+# ouverte automatiquement sur GitHub.
+publish_mode: editorial_workflow
+
+media_folder: "public/uploads"
+public_folder: "/uploads"
+
+locale: "fr"
+
+logo_url: /nexshield_logo2.png
+site_url: https://nexshieldsec.netlify.app
+
+slug:
+  encoding: "ascii"
+  clean_accents: true
+  sanitize_replacement: "-"
+
+collections:
+  - name: "writeups"
+    label: "Writeups"
+    label_singular: "Writeup"
+    folder: "content/writeups"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    summary: "{{date | date('YYYY-MM-DD')}} — {{titre}}"
+    sortable_fields: ["date", "titre"]
+    preview_path: "blog/writeups/{{slug}}"
+    fields:
+      - { name: "titre", label: "Titre", widget: "string" }
+      - { name: "date", label: "Date de publication", widget: "datetime", format: "YYYY-MM-DD" }
+      - { name: "auteur", label: "Auteur", widget: "string" }
+      - name: "resume"
+        label: "Résumé"
+        widget: "text"
+        hint: "Deux phrases maximum. C'est ce qui s'affiche dans la liste et dans les aperçus de partage."
+      - { name: "image", label: "Image de couverture", widget: "image", required: false }
+      - name: "plateforme"
+        label: "Plateforme"
+        widget: "select"
+        options: ["HackTheBox", "TryHackMe", "VulnLab", "CTF", "Bug bounty", "Lab interne", "Autre"]
+      - name: "difficulte"
+        label: "Difficulté"
+        widget: "select"
+        options: ["Facile", "Moyenne", "Difficile", "Insane"]
+        required: false
+      - name: "techniques"
+        label: "Techniques MITRE ATT&CK"
+        widget: "list"
+        required: false
+        hint: "Identifiants ATT&CK, par exemple T1190. Cohérent avec nos rapports client."
+      - { name: "etiquettes", label: "Étiquettes", widget: "list", required: false }
+      - name: "avertissement"
+        label: "Cible autorisée"
+        widget: "boolean"
+        default: true
+        hint: "Cocher confirme que la cible était un environnement d'entraînement ou un périmètre autorisé. Obligatoire avant publication."
+      - { name: "brouillon", label: "Brouillon", widget: "boolean", default: true }
+      - { name: "body", label: "Contenu", widget: "markdown" }
+
+  - name: "poc"
+    label: "Preuves de concept"
+    label_singular: "Preuve de concept"
+    folder: "content/poc"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    preview_path: "blog/poc/{{slug}}"
+    fields:
+      - { name: "titre", label: "Titre", widget: "string" }
+      - { name: "date", label: "Date de publication", widget: "datetime", format: "YYYY-MM-DD" }
+      - { name: "auteur", label: "Auteur", widget: "string" }
+      - { name: "resume", label: "Résumé", widget: "text" }
+      - { name: "image", label: "Image de couverture", widget: "image", required: false }
+      - { name: "cve", label: "CVE", widget: "string", required: false, hint: "Format CVE-AAAA-NNNNN" }
+      - { name: "cwe", label: "CWE", widget: "string", required: false }
+      - name: "severite"
+        label: "Sévérité"
+        widget: "select"
+        options: ["Critique", "Élevée", "Moyenne", "Faible", "Information"]
+      - { name: "cvss", label: "Score CVSS v4.0", widget: "string", required: false }
+      - { name: "produit", label: "Produit affecté", widget: "string", required: false }
+      - { name: "versions", label: "Versions affectées", widget: "string", required: false }
+      - name: "statut_divulgation"
+        label: "Statut de divulgation"
+        widget: "select"
+        options:
+          - "Corrigé par l'éditeur"
+          - "Divulgation coordonnée en cours"
+          - "Publié par l'éditeur"
+          - "Sans objet (environnement d'entraînement)"
+        hint: "Aucune publication avant correctif ou accord de l'éditeur. Voir SECURITY.md."
+      - name: "editeur_prevenu"
+        label: "Éditeur prévenu et délai respecté"
+        widget: "boolean"
+        default: false
+        hint: "Obligatoire pour toute vulnérabilité affectant un produit réel."
+      - { name: "etiquettes", label: "Étiquettes", widget: "list", required: false }
+      - { name: "brouillon", label: "Brouillon", widget: "boolean", default: true }
+      - { name: "body", label: "Contenu", widget: "markdown" }
+
+  - name: "cti"
+    label: "Renseignement sur les menaces"
+    label_singular: "Note CTI"
+    folder: "content/cti"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    preview_path: "blog/cti/{{slug}}"
+    fields:
+      - { name: "titre", label: "Titre", widget: "string" }
+      - { name: "date", label: "Date de publication", widget: "datetime", format: "YYYY-MM-DD" }
+      - { name: "auteur", label: "Auteur", widget: "string" }
+      - { name: "resume", label: "Résumé", widget: "text" }
+      - { name: "image", label: "Image de couverture", widget: "image", required: false }
+      - name: "confiance"
+        label: "Niveau de confiance"
+        widget: "select"
+        options: ["Confirmé", "Probable", "Possible", "Non vérifié"]
+        hint: "Une note CTI sans niveau de confiance n'a aucune valeur pour le lecteur."
+      - name: "secteurs"
+        label: "Secteurs visés"
+        widget: "list"
+        required: false
+      - name: "zones"
+        label: "Zones géographiques"
+        widget: "list"
+        required: false
+        hint: "Par exemple : Togo, Afrique de l'Ouest, UEMOA."
+      - { name: "acteurs", label: "Acteurs de la menace", widget: "list", required: false }
+      - { name: "techniques", label: "Techniques MITRE ATT&CK", widget: "list", required: false }
+      - name: "sources"
+        label: "Sources"
+        widget: "list"
+        field: { name: "url", label: "URL", widget: "string" }
+        hint: "Toute affirmation doit être sourcée. Pas de source, pas de publication."
+      - { name: "etiquettes", label: "Étiquettes", widget: "list", required: false }
+      - { name: "brouillon", label: "Brouillon", widget: "boolean", default: true }
+      - { name: "body", label: "Contenu", widget: "markdown" }
+
+  - name: "actualites"
+    label: "Actualités"
+    label_singular: "Actualité"
+    folder: "content/actualites"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    preview_path: "blog/actualites/{{slug}}"
+    fields:
+      - { name: "titre", label: "Titre", widget: "string" }
+      - { name: "date", label: "Date de publication", widget: "datetime", format: "YYYY-MM-DD" }
+      - { name: "auteur", label: "Auteur", widget: "string" }
+      - { name: "resume", label: "Résumé", widget: "text" }
+      - { name: "image", label: "Image de couverture", widget: "image", required: false }
+      - name: "categorie"
+        label: "Catégorie"
+        widget: "select"
+        options: ["Vie de la société", "Événement", "Publication", "Certification", "Recrutement"]
+      - { name: "etiquettes", label: "Étiquettes", widget: "list", required: false }
+      - { name: "brouillon", label: "Brouillon", widget: "boolean", default: true }
+      - { name: "body", label: "Contenu", widget: "markdown" }

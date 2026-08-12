@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>NexShield — Administration</title>
+    <link rel="icon" type="image/png" href="/nexshield_logo2.png" />
+    <style>
+      body { font-family: system-ui, sans-serif; margin: 0; background: #0B1220; }
+      #avertissement {
+        color: #E2E8F0; padding: 2rem; max-width: 40rem; margin: 4rem auto;
+        border-left: 3px solid #06B6D4; line-height: 1.6;
+      }
+      #avertissement h1 { color: #fff; font-size: 1.25rem; }
+      #avertissement code { color: #06B6D4; }
+    </style>
+  </head>
+  <body>
+    <!-- Remplacé par l'interface une fois le script chargé. Si le message reste
+         affiché, c'est que le chargement a échoué : voir DEPLOIEMENT.md. -->
+    <div id="avertissement">
+      <h1>Administration NexShield</h1>
+      <p>
+        Chargement de l'interface. Si ce message persiste, vérifiez que
+        <code>Netlify Identity</code> et <code>Git Gateway</code> sont activés sur
+        le site, et que votre compte a été invité.
+      </p>
+      <p>Cette page n'est pas indexée et n'est accessible qu'aux membres invités.</p>
+    </div>
+
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <script src="https://unpkg.com/decap-cms@3.8.4/dist/decap-cms.js"></script>
+    <script>
+      // Redirige vers l'administration après acceptation d'une invitation.
+      if (window.netlifyIdentity) {
+        window.netlifyIdentity.on('init', function (utilisateur) {
+          if (!utilisateur) {
+            window.netlifyIdentity.on('login', function () {
+              document.location.href = '/admin/'
+            })
+          }
+        })
+      }
+    </script>
+  </body>
+</html>
