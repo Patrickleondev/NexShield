@@ -1,5 +1,5 @@
-﻿import { useState } from 'react'
-import { Mail, Github, Linkedin, Twitter, Send, CheckCircle } from 'lucide-react'
+﻿import { useRef, useState } from 'react'
+import { Mail, Github, Linkedin, Twitter, Send, CheckCircle, AlertCircle, Loader2 } from 'lucide-react'
 import { useLanguage } from '../contexts/LanguageContext'
 
 export default function Contact() {
@@ -8,20 +8,54 @@ export default function Contact() {
   const f = pc.form
 
   const [sent, setSent] = useState(false)
+  const [sending, setSending] = useState(false)
+  const [error, setError] = useState<string | null>(null)
   const [form, setForm] = useState({ name: '', email: '', company: '', service: '', message: '' })
+
+  // Sert au filtrage des robots : un automate remplit le formulaire
+  // instantanement, un humain non.
+  const ouvertureMs = useRef(Date.now())
+  // Champ leurre, invisible pour un humain. Rempli => la soumission est ignoree.
+  const [piege, setPiege] = useState('')
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
     setForm({ ...form, [e.target.name]: e.target.value })
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    const subject = encodeURIComponent(`[NexShield] Assessment request from ${form.company || form.name}`)
-    const body = encodeURIComponent(
-      `Name: ${form.name}\nEmail: ${form.email}\nCompany: ${form.company}\nService: ${form.service}\n\n${form.message}`
-    )
-    window.location.href = `mailto:contact@nexshield.io?subject=${subject}&body=${body}`
-    setSent(true)
+    if (sending) return
+    setSending(true)
+    setError(null)
+
+    try {
+      const r = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          nom: form.name,
+          courriel: form.email,
+          societe: form.company,
+          service: form.service,
+          message: form.message,
+          site: piege,
+          ouvertureMs: ouvertureMs.current,
+        }),
+      })
+
+      if (r.ok) {
+        setSent(true)
+        setForm({ name: '', email: '', company: '', service: '', message: '' })
+        return
+      }
+      if (r.status === 429) setError(pc.error.rate)
+      else if (r.status === 422) setError(pc.error.fields)
+      else setError(pc.error.generic)
+    } catch {
+      setError(pc.error.generic)
+    } finally {
+      setSending(false)
+    }
   }
 
   const contacts = [
@@ -99,7 +133,7 @@ export default function Contact() {
                   >
                     <option value="">{f.servicePlaceholder}</option>
                     {t.services.map((s) => (
-                      <option key={s.id} value={s.title}>{s.title}</option>
+                      <option key={s.id} value={s.id}>{s.title}</option>
                     ))}
                     <option value={f.generalInquiry}>{f.generalInquiry}</option>
                   </select>
@@ -115,9 +149,32 @@ export default function Contact() {
                   />
                 </div>
 
-                <button type="submit" className="btn-primary flex items-center gap-2 w-full sm:w-auto justify-center">
-                  <Send className="w-4 h-4" />
-                  {f.submit}
+                {/* Leurre a robots : hors flux, masque aux lecteurs d'ecran. */}
+                <div className="absolute left-[-9999px]" aria-hidden="true">
+                  <label htmlFor="site">Ne pas remplir</label>
+                  <input
+                    id="site" name="site" type="text" tabIndex={-1} autoComplete="off"
+                    value={piege} onChange={(e) => setPiege(e.target.value)}
+                  />
+                </div>
+
+                {error && (
+                  <div
+                    role="alert"
+                    className="flex items-start gap-2 text-sm text-red-800 bg-red-50 border border-red-200 rounded-lg px-4 py-3"
+                  >
+                    <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" />
+                    <span>{error}</span>
+                  </div>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={sending}
+                  className="btn-primary flex items-center gap-2 w-full sm:w-auto justify-center disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                  {sending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
+                  {sending ? pc.sending : f.submit}
                 </button>
               </form>
             )}

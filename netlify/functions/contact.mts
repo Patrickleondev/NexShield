@@ -17,11 +17,6 @@ const FENETRE_MS = 10 * 60 * 1000   // 10 minutes
 const MAX_PAR_FENETRE = 3           // 3 envois par IP et par fenêtre
 const DELAI_MINIMAL_MS = 3000       // un humain met plus de 3 s à remplir le formulaire
 
-const SERVICES = [
-  'pentest-audit', 'ai-redteaming', 'secu-applicative', 'devsecops',
-  'soc-ai-tools', 'x-privacy', 'sensibilisation', 'infra-vpn-cloudflare', 'autre',
-]
-
 /** Compteur en mémoire. Réinitialisé à chaque démarrage d'instance : c'est un
  *  ralentisseur, pas une protection forte. Pour du sérieux, passer par le WAF. */
 const compteur = new Map<string, { n: number; debut: number }>()
@@ -86,7 +81,9 @@ export default async (req: Request, context: Context): Promise<Response> => {
   const courriel = propre(donnees.courriel, LIMITE_CHAMP.courriel).toLowerCase()
   const sujet = propre(donnees.sujet, LIMITE_CHAMP.sujet)
   const message = String(donnees.message ?? '').trim().slice(0, LIMITE_CHAMP.message)
-  const service = SERVICES.includes(String(donnees.service)) ? String(donnees.service) : 'autre'
+  // Simple libellé, borné et échappé plus bas : pas de liste blanche, pour ne pas
+  // se désynchroniser du catalogue de services affiché sur le site.
+  const service = propre(donnees.service, 60) || 'non précisé'
 
   const manques: string[] = []
   if (nom.length < 2) manques.push('nom')

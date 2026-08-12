@@ -178,6 +178,17 @@ export const translations = {
         bio: "Governance, Risk & Compliance expert and communications lead. Translates complex security postures into business language — and makes sure NexShield's voice is clear, consistent, and present.",
       },
     ],
+    chat: {
+      title: 'Assistant',
+      subtitle: 'Automated assistant',
+      greeting: 'Hello. I can help you identify which of our services fits your need. What brings you here?',
+      placeholder: 'Your message…',
+      open: 'Open chat',
+      close: 'Close chat',
+      thinking: 'Writing…',
+      error: 'The assistant is unavailable. Please use the contact form.',
+      disclaimer: 'Automated assistant. No security advice or pricing is given here.',
+    },
     pages: {
       services: {
         label: 'What We Offer',
@@ -226,9 +237,15 @@ export const translations = {
           submit: 'Send Message',
         },
         sent: {
-          title: 'Message sent!',
-          desc: "Your email client should have opened. We'll get back to you shortly.",
+          title: 'Message sent',
+          desc: 'We have received your request and will reply within 24 hours.',
           again: 'Send another',
+        },
+        sending: 'Sending…',
+        error: {
+          generic: 'Sending failed. Please try again, or email us directly.',
+          rate: 'Too many requests. Please try again in a few minutes.',
+          fields: 'Please check the highlighted fields.',
         },
         contactInfo: 'Contact Info',
         responseTime: {
@@ -461,6 +478,17 @@ export const translations = {
         bio: "Expert en Gouvernance, Risque & Conformité et responsable des communications. Traduit les postures de sécurité complexes en langage business — et s'assure que la voix de NexShield est claire, cohérente et présente.",
       },
     ],
+    chat: {
+      title: 'Assistant',
+      subtitle: 'Assistant automatique',
+      greeting: "Bonjour. Je peux vous aider à identifier lequel de nos services correspond à votre besoin. Qu'est-ce qui vous amène ?",
+      placeholder: 'Votre message…',
+      open: 'Ouvrir le chat',
+      close: 'Fermer le chat',
+      thinking: 'Rédaction…',
+      error: "L'assistant est indisponible. Utilisez le formulaire de contact.",
+      disclaimer: "Assistant automatique. Aucun conseil de sécurité ni tarif n'est donné ici.",
+    },
     pages: {
       services: {
         label: 'Ce Que Nous Offrons',
@@ -509,9 +537,15 @@ export const translations = {
           submit: 'Envoyer le Message',
         },
         sent: {
-          title: 'Message envoyé !',
-          desc: "Votre client de messagerie devrait s'être ouvert. Nous vous répondrons sous peu.",
+          title: 'Message envoyé',
+          desc: 'Nous avons bien reçu votre demande et vous répondrons sous 24 heures.',
           again: 'Envoyer un autre',
+        },
+        sending: 'Envoi en cours…',
+        error: {
+          generic: "L'envoi a échoué. Réessayez, ou écrivez-nous directement.",
+          rate: 'Trop de demandes. Réessayez dans quelques minutes.',
+          fields: 'Vérifiez les champs signalés.',
         },
         contactInfo: 'Coordonnées',
         responseTime: {
