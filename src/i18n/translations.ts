@@ -153,27 +153,27 @@ export const translations = {
     ],
     team: [
       {
-        role: 'Founder & Lead',
+        role: 'Co-founder & Technical Lead',
         specialty: 'AI RedTeaming · DevSecOps',
         bio: "Founder of NexShield. Expert in AI RedTeaming, LLM security, DevSecOps, and offensive tooling. Builds security systems that adapt to tomorrow's threats — not just yesterday's.",
       },
       {
-        role: 'Backend Engineer',
+        role: 'Co-founder & Backend Engineer',
         specialty: 'OSINT · Data Intelligence',
         bio: 'Backend architecture, OSINT investigations, and data intelligence pipelines. Builds the infrastructure that turns raw intelligence into actionable security insights.',
       },
       {
-        role: 'Mobile & Backend Dev',
+        role: 'Co-founder & Mobile / Backend Dev',
         specialty: 'DFIR · Forensics',
         bio: "Mobile (Flutter) and backend developer, DFIR specialist, and digital forensics practitioner. When incidents happen, Laurent finds out how — and makes sure they don't happen again.",
       },
       {
-        role: 'Web Developer',
+        role: 'Co-founder & Web Developer',
         specialty: 'Creative Director · Community',
         bio: "Frontend developer and creative force behind NexShield's visual identity. Manages community presence and turns technical content into stories people actually want to read.",
       },
       {
-        role: 'GRC Lead',
+        role: 'Co-founder & GRC Lead',
         specialty: 'Compliance · Communications',
         bio: "Governance, Risk & Compliance expert and communications lead. Translates complex security postures into business language — and makes sure NexShield's voice is clear, consistent, and present.",
       },
@@ -453,27 +453,27 @@ export const translations = {
     ],
     team: [
       {
-        role: 'Fondateur & Lead',
+        role: 'Co-fondateur & Direction technique',
         specialty: 'RedTeaming IA · DevSecOps',
         bio: "Fondateur de NexShield. Expert en RedTeaming IA, sécurité LLM, DevSecOps et outils offensifs. Construit des systèmes de sécurité qui s'adaptent aux menaces de demain — pas seulement d'hier.",
       },
       {
-        role: 'Ingénieur Backend',
+        role: 'Co-fondateur & Ingénieur Backend',
         specialty: 'OSINT · Intelligence de Données',
         bio: "Architecture backend, investigations OSINT et pipelines d'intelligence de données. Construit l'infrastructure qui transforme le renseignement brut en insights de sécurité actionnables.",
       },
       {
-        role: 'Dev Mobile & Backend',
+        role: 'Co-fondateur & Dev Mobile / Backend',
         specialty: 'DFIR · Forensics',
         bio: "Développeur mobile (Flutter) et backend, spécialiste DFIR et praticien en forensics numériques. Quand les incidents surviennent, Laurent découvre comment — et s'assure qu'ils ne se reproduisent pas.",
       },
       {
-        role: 'Développeur Web',
+        role: 'Co-fondateur & Développeur Web',
         specialty: 'Directeur Créatif · Communauté',
         bio: "Développeur frontend et force créative derrière l'identité visuelle de NexShield. Gère la présence communautaire et transforme le contenu technique en histoires que les gens veulent lire.",
       },
       {
-        role: 'Responsable GRC',
+        role: 'Co-fondateur & Responsable GRC',
         specialty: 'Conformité · Communications',
         bio: "Expert en Gouvernance, Risque & Conformité et responsable des communications. Traduit les postures de sécurité complexes en langage business — et s'assure que la voix de NexShield est claire, cohérente et présente.",
       },

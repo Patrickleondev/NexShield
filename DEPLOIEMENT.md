@@ -30,7 +30,7 @@ mettre dans le dépôt ; `.env` est ignoré par Git, `.env.example` sert de mod�
 | `OPENROUTER_API_KEY` | `/api/chat` | [openrouter.ai/settings/keys](https://openrouter.ai/settings/keys) |
 | `OPENROUTER_MODELE` | `/api/chat` | Défaut : `nvidia/nemotron-3-ultra-550b-a55b:free` |
 | `RESEND_API_KEY` | `/api/contact` | [resend.com/api-keys](https://resend.com/api-keys) |
-| `CONTACT_TO` | `/api/contact` | Adresse de réception interne |
+| `CONTACT_TO` | `/api/contact` | Une ou plusieurs adresses, séparées par des virgules |
 | `CONTACT_FROM` | `/api/contact` | Adresse expéditrice **vérifiée chez Resend** |
 | `SITE_URL` | les deux | URL publique du site |
 
@@ -46,14 +46,54 @@ sur ce projet.
 Le plan gratuit couvre 3 000 courriels par mois, largement suffisant.
 
 1. Créer un compte sur [resend.com](https://resend.com).
-2. **Sans domaine** : utiliser l'expéditeur de test fourni, qui n'envoie qu'à
-   l'adresse du compte. Suffisant pour valider la chaîne.
-3. **Avec domaine** : ajouter le domaine, publier les enregistrements DNS
-   demandés (SPF, DKIM, et de préférence DMARC), attendre la vérification.
-   `CONTACT_FROM` doit appartenir à ce domaine.
+2. Créer une clé API → `RESEND_API_KEY`.
+
+### Sans nom de domaine (pour tester tout de suite)
+
+```
+CONTACT_FROM=onboarding@resend.dev
+CONTACT_TO=<l'adresse de votre compte Resend>
+```
+
+`onboarding@resend.dev` est l'expéditeur de test de Resend. **Il n'envoie qu'à
+l'adresse du compte Resend** — inutile d'y mettre les adresses de l'équipe, elles
+seraient rejetées. C'est suffisant pour valider que la chaîne fonctionne.
+
+### Avec un nom de domaine (production)
+
+1. Resend → *Domains* → ajouter votre domaine.
+2. Publier les enregistrements DNS demandés : **SPF**, **DKIM**, et de préférence
+   **DMARC**. Attendre la vérification.
+3. `CONTACT_FROM` doit appartenir à ce domaine, par exemple `site@nexshield.tg`.
+
+### Plusieurs destinataires
+
+`CONTACT_TO` accepte une liste séparée par des virgules, sans espace obligatoire :
+
+```
+CONTACT_TO=patrick@nexshield.tg,dora@nexshield.tg,contact@nexshield.tg
+```
+
+Toute l'équipe reçoit la demande en même temps — personne n'attend que quelqu'un
+d'autre fasse suivre. Les adresses invalides sont ignorées silencieusement ;
+si aucune n'est valide, la fonction renvoie une erreur de configuration.
+
+Alternative une fois le domaine en place : créer un **alias de groupe**
+(`contact@nexshield.tg` redistribuant vers l'équipe) et ne mettre que celui-ci.
+Plus propre à long terme, car la liste se gère côté messagerie et non dans une
+variable d'environnement.
 
 > Sans SPF et DKIM correctement publiés, vos courriels partent en indésirables.
 > Pour une société de sécurité, c'est le genre de détail qu'un prospect remarque.
+
+### Pourquoi pas Netlify Forms
+
+Netlify propose un traitement de formulaires intégré, sans code. Nous ne
+l'utilisons pas : le plan gratuit est plafonné à **100 soumissions par mois**, les
+données sont stockées chez Netlify, et le filtrage anti-robots est moins fin que
+le nôtre. Notre fonction n'a pas de plafond et garde la maîtrise des données.
+
+Ne pas activer la détection automatique de formulaires : elle ferait doublon.
 
 ---
 

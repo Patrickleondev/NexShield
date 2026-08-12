@@ -94,9 +94,16 @@ export default async (req: Request, context: Context): Promise<Response> => {
   }
 
   const cleResend = process.env.RESEND_API_KEY
-  const destinataire = process.env.CONTACT_TO
+  // CONTACT_TO accepte plusieurs adresses separees par des virgules : toute
+  // l'equipe reçoit la demande, personne n'attend que quelqu'un fasse suivre.
+  // Resend plafonne a 50 destinataires par envoi.
+  const destinataires = (process.env.CONTACT_TO ?? '')
+    .split(',')
+    .map((a) => a.trim())
+    .filter((a) => courrielValide(a))
+    .slice(0, 50)
   const expediteur = process.env.CONTACT_FROM
-  if (!cleResend || !destinataire || !expediteur) {
+  if (!cleResend || !destinataires.length || !expediteur) {
     // On ne révèle pas la configuration au visiteur, mais on trace côté serveur.
     console.error('contact: configuration incomplète (RESEND_API_KEY, CONTACT_TO, CONTACT_FROM)')
     return reponse({ erreur: 'Service momentanément indisponible' }, 503)
@@ -137,7 +144,7 @@ export default async (req: Request, context: Context): Promise<Response> => {
       },
       body: JSON.stringify({
         from: `Site NexShield <${expediteur}>`,
-        to: [destinataire],
+        to: destinataires,
         reply_to: courriel,
         subject: `[Site] ${service} — ${nom}${societe ? ` (${societe})` : ''}`,
         html,
